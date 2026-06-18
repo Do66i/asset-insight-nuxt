@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     ],
     modules: [
         '@nuxt/eslint',
+        '@pinia/nuxt',
     ],
     devtools: {enabled: true},
     // vite 최적화 설정 추가

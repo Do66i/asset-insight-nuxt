@@ -22,11 +22,16 @@
 </template>
 
 <script setup>
+import { useAuthStore } from '@/stores/auth';
 // ----- Props / Emits -----
 
 // ----- Composables -----
+const authStore = useAuthStore();
+const router = useRouter(); // 로그인 성공 후 페이지 이동을 위한 라우터
+const { login } = authStore;
 
 // ----- State -----
+const userId = ref('');
 
 // ----- Computed -----
 
@@ -37,7 +42,10 @@
 // ----- Methods -----
 const handleLogin = () => {
   console.log('로그인 시도');
-  // 추후 여기에 Nest.js API 연동이나 상태 변경 로직 추가
+  login({ id: userId.value })
+
+  // 로그인 완료 후 대시보드 메인으로 이동
+  router.push('/'); //
 };
 
 // ----- Page Meta -----

@@ -38,7 +38,8 @@ nav {
     }
   }
 
-  a {
+  a, button {
+    font-size: 16px;
     text-decoration: none;
     color: variables.$Gray500;
     font-weight: 500;
