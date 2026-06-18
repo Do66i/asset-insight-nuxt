@@ -1,0 +1,134 @@
+// assets/scss/_variables.scss
+
+// ==========================================
+//  Color Variables
+// ==========================================
+
+// 차분하고 부드러운 모노톤 그레이
+$Text-Gray: #555B60;       // 본문용 블루이시 다크 그레이
+$Medium-Gray: #BCC2C8;     // 보더 및 플레이스홀더용 그레이
+$Light-Gray: #EAECEF;      // 백그라운드 및 연한 구분선용 그레이
+$Gray-Site: #79828B;       // 서브 텍스트 및 비활성화용 그레이
+
+// 여름뮤트 스틸 블루 & 네이비 라인업
+$Red: #C36A72;             // 경고/하락/포인트용 톤다운된 장미색 (기존 유지)
+$Main100: #E6EEF4;         // 맑고 연한 에쉬 스카이 블루 (배경/강조 블록용)
+$Main200: #C2D3E4;         // 은은한 회청색 뮤트 블루
+$Main300: #8EACCC;         // 채도를 살짝 낮춘 정갈한 스틸 블루
+$Main400: #527AA4;         // 여름뮤트 핵심 푸른색 (비선택 탭과 확실한 대비를 주는 GNB 활성화 컬러)
+$Main500: #355A82;         // 깊고 선명한 인디고 네이비 (버튼/셀렉트박스 등)
+$Main600: #1D3958;         // 도토 취향 저격: 가장 깊고 묵직한 다크 오션 네이비 (메인 타이틀용)
+$Main-Gradation: linear-gradient(180deg, #8EACCC 0%, #355A82 100%);
+
+// 푸른 끼와 조화를 이루는 완전 쿨 에쉬 그레이 라인업
+$Text-Normal: #16191C;     // 푸른 끼가 아주 살짝 도는 세련된 블랙 (기본 타이틀 텍스트)
+$Gray00: #FFFFFF;
+$Gray50: #F5F7F8;          // 연한 대시보드 카드 배경색
+$Gray100: #E9ECEF;
+$Gray200: #DDE1E5;
+$Gray300: #CED4DA;
+$Gray400: #ADB5BD;
+$Gray500: #9098A1;
+$Gray600: #747D87;
+$Gray700: #5C646E;
+$Gray800: #454B52;
+$Gray900: #2E3236;
+$Gray1000: #1A1C1E;
+
+
+// ==========================================
+//  Mixins
+// ==========================================
+
+// 스크롤바 스타일링 정의
+@mixin scrollBar() {
+  &::-webkit-scrollbar {
+    width: 20px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px 10px #FFF;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 10px 10px $Gray100;
+    border-radius: 10px;
+    min-height: 40px;
+  }
+  &::-webkit-scrollbar-button:horizontal:single-button:end {
+    position: absolute;
+    overflow: hidden;
+    content: '';
+    width: 35px;
+  }
+  &::-webkit-scrollbar-track:vertical {
+    background-clip: padding-box;
+    border: 7px solid transparent;
+  }
+  &::-webkit-scrollbar-thumb:vertical {
+    background-clip: padding-box;
+    border: 7px solid transparent;
+  }
+}
+
+// 텍스트 영역 공통 스타일
+@mixin textArea() {
+  color: $Gray700;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  border-radius: 4px;
+  border: 1px solid $Gray100;
+  background: #FFF;
+  height: 180px;
+  padding: 16px;
+  overflow: auto;
+  @include scrollBar();
+}
+
+// 폰트 스타일 생성용
+@mixin fontStyle($font, $size, $weight, $height, $color, $letter){
+  font-family: $font, sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $height;
+  color: $color;
+  letter-spacing: $letter;
+}
+
+// 배경 이미지 지정용
+@mixin bgImg($width, $height, $bgUrl, $bgSize, $bgPos) {
+  width: $width;
+  height: $height;
+  background-image: url($bgUrl);
+  background-size: $bgSize;
+  background-position: $bgPos;
+}
+
+// 본문 볼드 텍스트 단축용
+@mixin bodyTextBold($size) {
+  @include fontStyle('Pretendard', $size, 600, normal, $Text-Gray, 0);
+}
+
+// 플렉스 박스 레이아웃용
+@mixin itemsFlex($display, $items, $content){
+  display: $display;
+  align-items: $items;
+  justify-content: $content;
+}
+
+// 기본 그리드 레이아웃용
+@mixin gridList($num, $column, $row) {
+  display: grid;
+  grid-template-columns: repeat($num, minmax(0, 1fr));
+  column-gap: $column;
+  row-gap: $row;
+}
+
+// 고정 가로폭 그리드 레이아웃용
+@mixin gridListAuto($num, $width, $column, $row) {
+  display: grid;
+  grid-template-columns: repeat($num, $width);
+  column-gap: $column;
+  row-gap: $row;
+}

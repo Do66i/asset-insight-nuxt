@@ -1,3 +1,5 @@
+@use 'variables';
+
 // 웹사이트 기본 초기화 및 여백 설정
 body {
   margin: 0;
@@ -15,5 +17,41 @@ body {
   .container {
     padding: 2rem;
     flex: 1;
+  }
+}
+
+/* === 글로벌 네비게이션 바 (GNB) 스타일 === */
+nav {
+  padding: 1rem;
+  background-color: variables.$Gray50;
+  border-bottom: 1px solid variables.$Gray200;
+
+  ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .login-menu {
+      margin-left: auto;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: variables.$Gray500;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: variables.$Main400;
+    }
+
+    /* 현재 활성화된 페이지의 링크 */
+    &.router-link-active {
+      color: variables.$Main400;
+      font-weight: 700;
+    }
   }
 }
