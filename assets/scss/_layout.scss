@@ -56,3 +56,16 @@ nav {
     }
   }
 }
+
+/* === 글로벌 로딩 컴포넌트 스타일 ===*/
+.common-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+
+  .loading-text {
+    color: #999;
+    font-size: 0.95rem;
+  }
+}

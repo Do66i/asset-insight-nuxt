@@ -2,10 +2,13 @@
   <div>
     <h2>인사이트 메인 게시판</h2>
 
-    <ul>
-      <li v-for="post in posts" :key="post.id">
-        <NuxtLink :to="`/board/${post.id}`">
-          {{ post.title }}
+    <CommonLoading v-if="pending" />
+
+    <ul v-else class="board-list">
+      <li v-for="item in boardList" :key="item.id">
+        <NuxtLink :to="`/board/${item.id}`">
+          <span class="title">{{ item.title }}</span>
+          <span class="info">{{ item.writer }} | {{ item.date }}</span>
         </NuxtLink>
       </li>
     </ul>
@@ -16,6 +19,8 @@
 // ----- Props / Emits -----
 
 // ----- Composables -----
+// useFetch를 통해 내장 임시 API 데이터 호출
+const { data: boardList, pending } = useFetch('/api/board');
 
 // ----- State -----
 const posts = ref([
@@ -33,4 +38,25 @@ const posts = ref([
 // ----- Methods -----
 </script>
 <style scoped lang="scss">
+.board-page {
+  .loading {
+    color: #999;
+  }
+  .board-list {
+    list-style: none;
+    padding: 0;
+    li {
+      margin-bottom: 1rem;
+      a {
+        display: flex;
+        justify-content: space-between;
+        text-decoration: none;
+        color: #333;
+        &:hover {
+          color: #527AA4;
+        }
+      }
+    }
+  }
+}
 </style>
