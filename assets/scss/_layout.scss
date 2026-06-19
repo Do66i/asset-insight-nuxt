@@ -96,3 +96,61 @@ nav {
     }
   }
 }
+/* === 글로벌 입력창 컴포넌트 스타일 ===*/
+.common-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0.5rem;
+
+  .input-label {
+    font-size: 0.85rem;
+    color: #454B52;
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+
+  .base-input {
+    width: 100%;
+    padding: 0.625rem;
+    border: 1px solid #DCE1E6;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #527AA4;
+    }
+
+    /* 에러 메시지가 활성화되었을 때 빨간색 보더 피드백 */
+    &.has-error {
+      border-color: #D14D4D;
+      background-color: #FFF5F5;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(209, 77, 77, 0.15);
+      }
+    }
+  }
+
+  .error-message-text {
+    color: #D14D4D;
+    font-size: 0.8rem;
+    margin-top: 0.35rem;
+    margin-bottom: 0;
+  }
+
+  /* 에러 문구 스르륵 나타나는 Vue 트랜지션 애니메이션 */
+  .slide-fade-enter-active,
+  .slide-fade-leave-active {
+    transition: all 0.2s ease-out;
+  }
+
+  .slide-fade-enter-from,
+  .slide-fade-leave-to {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+}
