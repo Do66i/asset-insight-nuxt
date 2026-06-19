@@ -38,25 +38,4 @@ const posts = ref([
 // ----- Methods -----
 </script>
 <style scoped lang="scss">
-.board-page {
-  .loading {
-    color: #999;
-  }
-  .board-list {
-    list-style: none;
-    padding: 0;
-    li {
-      margin-bottom: 1rem;
-      a {
-        display: flex;
-        justify-content: space-between;
-        text-decoration: none;
-        color: #333;
-        &:hover {
-          color: #527AA4;
-        }
-      }
-    }
-  }
-}
 </style>

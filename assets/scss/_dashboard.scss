@@ -1,0 +1,121 @@
+.dashboard-page {
+  padding: 1rem 0;
+
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .widget-card {
+    background-color: #fff;
+    border: 1px solid #E9ECEF;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+
+    h3 {
+      font-size: 1.1rem;
+      color: #16191C;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #F1F3F5;
+      padding-bottom: 0.5rem;
+    }
+
+    .widget-action {
+      margin-top: 1.5rem;
+      text-align: right;
+
+      .link-btn {
+        font-size: 0.85rem;
+        color: #527AA4;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+          color: #355A82;
+        }
+      }
+    }
+  }
+
+  /* 자산 위젯 내부 서체 구조 */
+  .asset-widget {
+    .asset-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .label {
+          font-size: 0.9rem;
+          color: #747D87;
+        }
+        .value {
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: #16191C;
+
+          &.plus { color: #D14D4D; }
+          &.minus { color: #4D7BD1; }
+        }
+      }
+    }
+  }
+
+  /* 게시판 위젯 내부 리스트 구조 */
+  .board-widget {
+    .recent-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin-bottom: 0.75rem;
+
+        a {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          text-decoration: none;
+          color: #454B52;
+          font-size: 0.9rem;
+
+          &:hover {
+            color: #527AA4;
+            .post-title { text-decoration: underline; }
+          }
+
+          .post-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 70%;
+          }
+          .post-date {
+            font-size: 0.8rem;
+            color: #9098A1;
+          }
+        }
+      }
+    }
+  }
+
+  /* 태블릿 및 데스크톱 스크린 반응형 (2단 카드 배치) */
+  @media (min-width: 768px) {
+    .dashboard-grid {
+      flex-direction: row;
+    }
+    .widget-card {
+      flex: 1;
+    }
+  }
+}
