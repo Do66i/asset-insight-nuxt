@@ -18,6 +18,21 @@
       </div>
     </section>
 
+    <section v-if="assetList.length > 0" class="asset-chart-section">
+      <h3>📈 종목별 보유 비중</h3>
+      <div class="chart-wrapper">
+        <client-only>
+          <apexchart
+            type="donut"
+            width="100%"
+            max-width="480"
+            :options="chartOptions"
+            :series="chartSeries"
+          />
+        </client-only>
+      </div>
+    </section>
+
     <section class="asset-form">
       <h3>➕ 새로운 자산 추가</h3>
       <form @submit.prevent="handleSubmit" novalidate>
@@ -87,10 +102,10 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { usePortfolioStore } from '@/stores/portfolio.js';
-import { allowOnlyNumberAndDot } from '@/utils/regex.js'; // 설명: 누락되었던 숫자 정규식 유틸 정밀 import
+import { allowOnlyNumberAndDot } from '@/utils/regex.js';
 
 // ----- Props / Emits -----
 
@@ -113,13 +128,61 @@ const errors = reactive({
 });
 
 // ----- Computed -----
+// 설명: 자산 리스트 변경을 실시간 감지하여 차트 백분율 데이터 시리즈 배열 생성
+const chartSeries = computed(() => {
+  return assetList.value.map((asset) => {
+    // 종목별 총 평가 금액 수치 환산 절차 가공
+    return asset.quantity * asset.currentPrice;
+  });
+});
+
+// 설명: 여름뮤트 가이드 색상 칩 테마를 주입한 ApexCharts 전역 옵션 설정 바인딩
+const chartOptions = computed(() => {
+  const labels = assetList.value.map((asset) => asset.name);
+
+  return {
+    chart: {
+      type: 'donut',
+    },
+    // 설명: 우리가 사전에 조율했던 소프트 여름뮤트 시그니처 컬러 스키마 매핑
+    colors: ['#A47AA5', '#527AA4', '#7AA482', '#E2A4A4', '#92A4A4'],
+    labels: labels,
+    legend: {
+      position: 'bottom',
+      labels: {
+        colors: '#454B52',
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function (val) {
+        return val.toFixed(1) + '%';
+      },
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            show: true,
+            total: {
+              show: true,
+              label: '총 평가 자산',
+              formatter: function () {
+                return '$' + totalEvaluationAmount.value.toFixed(2);
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+});
 
 // ----- Watchers -----
 
 // ----- Lifecycle Hooks -----
 
 // ----- Methods -----
-// 전체 폼 유효성 검사 (타입 및 데이터 누락 여부 정밀 체킹)
 const validateForm = () => {
   let isValid = true;
 
@@ -147,7 +210,6 @@ const validateForm = () => {
   return isValid;
 };
 
-// 설명: 종목명 입력 시 실시간 유효성 검사 및 경고 노출 제어
 const handleInputName = () => {
   if (form.name.trim()) {
     errors.name = '';
@@ -156,7 +218,6 @@ const handleInputName = () => {
   }
 };
 
-// 설명: 수량 입력 시 숫자 필터링 및 실시간 경고 제어
 const handleInputQuantity = () => {
   form.quantity = allowOnlyNumberAndDot(form.quantity);
   if (form.quantity.trim() && Number(form.quantity) > 0) {
@@ -166,7 +227,6 @@ const handleInputQuantity = () => {
   }
 };
 
-// 설명: 평균 단가 입력 시 숫자 필터링 및 실시간 경고 제어
 const handleInputAvgPrice = () => {
   form.avgPrice = allowOnlyNumberAndDot(form.avgPrice);
   if (form.avgPrice.trim() && Number(form.avgPrice) > 0) {
@@ -176,7 +236,6 @@ const handleInputAvgPrice = () => {
   }
 };
 
-// 자산 등록 처리
 const handleSubmit = () => {
   if (!validateForm()) {
     return;
@@ -192,7 +251,6 @@ const handleSubmit = () => {
   errors.avgPrice = '';
 };
 
-// 자산 삭제 처리
 const handleDelete = (id) => {
   deleteAsset(id);
 };
