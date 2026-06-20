@@ -29,3 +29,22 @@ export const allowOnlyKorean = (val) => {
   }
   return val.replace(/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '');
 };
+
+// 설명: 아이디 규칙 검증 (4~12자 영문/숫자)
+export const isValidId = (val) => {
+  const idRegex = /^[a-zA-Z0-9]{4,12}$/;
+  return idRegex.test(val);
+};
+
+// 설명: 비밀번호 임시 가이드 규칙 검증
+export const isValidPasswordTemp = (val) => {
+  return val.length >= 4;
+};
+
+// 설명: 입력 이벤트 시점에 영문 대소문자와 숫자만 남기고 한글/특수문자를 전량 강제 삭제하는 필터
+export const allowOnlyAlphaNumeric = (val) => {
+  if (!val) {
+    return '';
+  }
+  return val.replace(/[^a-zA-Z0-9]/g, '');
+};

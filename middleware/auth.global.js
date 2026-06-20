@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/auth.js';
 export default defineNuxtRouteMiddleware((to) => {
   const authStore = useAuthStore();
 
-  const publicPage = ['/login', '/'];
+  const publicPage = ['/login', '/', '/signup'];
 
   // 로그인하지 않은 상태에서 '공개 페이지 목록'에 없는 보호된 주소(포트폴리오, 게시판 등)로 가려고 할 때
   if (!authStore.isAuthenticated && !publicPage.includes(to.path)) {

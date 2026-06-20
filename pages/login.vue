@@ -25,10 +25,13 @@
         <p v-if="globalError" class="global-error-msg">{{ globalError }}</p>
 
         <button type="submit">로그인</button>
+        <button type="button" class="signup-redirect-btn" @click="goToSignup">
+          회원가입
+        </button>
       </form>
 
       <div class="back-link">
-        <NuxtLink to="/">메인으로 돌아가기</NuxtLink>
+        <nuxt-link to="/">메인으로 돌아가기</nuxt-link>
       </div>
     </div>
   </div>
@@ -93,6 +96,10 @@ const handleLogin = () => {
   } else {
     globalError.value = '아이디 또는 비밀번호가 일치하지 않아!';
   }
+};
+
+const goToSignup = () => {
+  router.push('/signup');
 };
 
 // ----- Page Meta -----

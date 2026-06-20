@@ -4,7 +4,7 @@
       📈 여왕개미를 향하여 ...
     </NuxtLink>
 
-    <nav class="header-nav">
+    <nav v-if="!isAuthPage" class="header-nav">
       <NuxtLink
         to="/"
         :class="{ 'active': route.path === '/' }"
@@ -46,6 +46,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/auth.js';
 
@@ -56,20 +57,23 @@ const route = useRoute();
 const authStore = useAuthStore();
 const router = useRouter();
 
-// 설명: Pinia auth 스토어에 실제 등록된 상태 및 게터 매핑 매칭
 const { isAuthenticated, user } = storeToRefs(authStore);
 const { logout } = authStore;
 
 // ----- State -----
 
 // ----- Computed -----
+// 설명: 현재 페이지가 로그인(/login) 또는 회원가입(/signup) 페이지인지 판별하는 연산 프로퍼티
+const isAuthPage = computed(() => {
+  const authPaths = ['/login', '/signup'];
+  return authPaths.includes(route.path);
+});
 
 // ----- Watchers -----
 
 // ----- Lifecycle Hooks -----
 
 // ----- Methods -----
-// 설명: 로그아웃 처리 후 안전하게 게스트 홈 페이지로 강제 다이렉팅
 const handleLogout = () => {
   logout();
   router.push('/');
@@ -77,4 +81,6 @@ const handleLogout = () => {
 </script>
 
 <style scoped lang="scss">
+/* 설명: 외부 공통 레이아웃 스타일 적용을 위해 빈 껍데기 스코프 유지 */
+@import '@/assets/css/layout.scss';
 </style>
