@@ -28,7 +28,7 @@
       </section>
 
       <section class="widget-card board-widget">
-        <h3>📝 최근 업데이트 인사이트 22</h3>
+        <h3>📝 최근 업데이트 인사이트</h3>
 
         <common-loading v-if="pending" />
 

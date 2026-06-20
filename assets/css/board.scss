@@ -1,3 +1,4 @@
+@import "variables";
 /* === 게시판 메인 ===*/
 .board-page {
   .loading {
@@ -22,46 +23,91 @@
 }
 /* === 게시판 상세 ===*/
 .board-detail-page {
-  padding: 1rem 0;
+  padding: 2rem 0;
+  width: 100%;
+  box-sizing: border-box;
 
-  .post-title {
-    font-size: 1.5rem;
-    color: #16191C;
-    margin-bottom: 0.5rem;
-  }
+  .detail-container {
+    background-color: $Gray00;
+    border: 1px solid $Gray200;
+    border-radius: 8px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 
-  .post-meta {
-    font-size: 0.85rem;
-    color: #747D87;
-    margin-bottom: 1rem;
+    .detail-header {
+      border-bottom: 1px solid $Gray200;
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
 
-    .divider {
-      margin: 0 0.5rem;
+      .category-tag {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: $Main400; /* 여름뮤트 시그니처 플럼 로즈 컬러 사용 */
+        background-color: $Gray50;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        margin-bottom: 0.75rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+        color: $Text-Normal;
+        margin: 0 0 1rem 0;
+        line-height: 1.4;
+      }
+
+      .meta-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.88rem;
+        color: $Gray600;
+
+        .writer {
+          font-weight: 500;
+        }
+        .divider {
+          color: $Gray300;
+        }
+      }
+    }
+
+    .detail-body {
+      min-height: 200px;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      color: $Text-Normal;
+      word-break: break-all;
+
+      .content-text {
+        white-space: pre-wrap; /* 서버 공백 줄바꿈 포맷 보존 */
+        margin: 0;
+      }
+    }
+
+    .detail-footer {
+      border-top: 1px solid $Gray200;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      text-align: left;
+
+      .back-list-btn {
+        display: inline-block;
+        color: $Gray-Site;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: $Text-Normal;
+          text-decoration: underline;
+        }
+      }
     }
   }
 
-  .post-body {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #454B52;
-    margin: 1.5rem 0;
-  }
-
-  .action-area {
-    margin-top: 2rem;
-  }
-
-  .back-btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #527AA4;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-
-    &:hover {
-      background-color: #355A82;
-    }
+  .no-data-wrapper {
+    padding: 4rem 0;
   }
 }
