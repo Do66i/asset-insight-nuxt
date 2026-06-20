@@ -1,6 +1,5 @@
 <template>
-  <div class="portfolio-page">
-    <h2>📊 자산 포트폴리오 관리</h2>
+  <div class="portfolio-page"> <h2>📊 자산 포트폴리오 관리</h2>
 
     <section class="summary-card">
       <div class="summary-item">
@@ -13,7 +12,7 @@
       </div>
       <div class="summary-item">
         <span class="label">총 수익률</span>
-        <span class="value" :class="{ 'plus': totalReturnRate > 0, 'minus': totalReturnRate < 0 }">
+        <span :class="['value', { 'plus': totalReturnRate > 0, 'minus': totalReturnRate < 0 }]">
           {{ totalReturnRate.toFixed(2) }}%
         </span>
       </div>
@@ -78,7 +77,7 @@
             ${{ ((asset.currentPrice - asset.avgPrice) * asset.quantity).toFixed(2) }}
           </td>
           <td>
-            <button @click="handleDelete(asset.id)" class="delete-btn">삭제</button>
+            <button class="delete-btn" @click="handleDelete(asset.id)">삭제</button>
           </td>
         </tr>
         </tbody>
@@ -91,6 +90,7 @@
 import { reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import { usePortfolioStore } from '@/stores/portfolio.js';
+import { allowOnlyNumberAndDot } from '@/utils/regex.js'; // 설명: 누락되었던 숫자 정규식 유틸 정밀 import
 
 // ----- Props / Emits -----
 
@@ -119,7 +119,7 @@ const errors = reactive({
 // ----- Lifecycle Hooks -----
 
 // ----- Methods -----
-// 전체 폼 유효성 검사
+// 전체 폼 유효성 검사 (타입 및 데이터 누락 여부 정밀 체킹)
 const validateForm = () => {
   let isValid = true;
 
@@ -130,15 +130,15 @@ const validateForm = () => {
     errors.name = '';
   }
 
-  if (!form.quantity.trim()) {
-    errors.quantity = '보유 수량을 입력해 주세요.';
+  if (!form.quantity.trim() || Number(form.quantity) <= 0) {
+    errors.quantity = '올바른 보유 수량을 입력해 주세요.';
     isValid = false;
   } else {
     errors.quantity = '';
   }
 
-  if (!form.avgPrice.trim()) {
-    errors.avgPrice = '평균 매수 단가를 입력해 주세요.';
+  if (!form.avgPrice.trim() || Number(form.avgPrice) <= 0) {
+    errors.avgPrice = '올바른 평균 매수 단가를 입력해 주세요.';
     isValid = false;
   } else {
     errors.avgPrice = '';
@@ -159,20 +159,20 @@ const handleInputName = () => {
 // 설명: 수량 입력 시 숫자 필터링 및 실시간 경고 제어
 const handleInputQuantity = () => {
   form.quantity = allowOnlyNumberAndDot(form.quantity);
-  if (form.quantity.trim()) {
+  if (form.quantity.trim() && Number(form.quantity) > 0) {
     errors.quantity = '';
   } else {
-    errors.quantity = '보유 수량을 입력해 주세요.';
+    errors.quantity = '올바른 보유 수량을 입력해 주세요.';
   }
 };
 
 // 설명: 평균 단가 입력 시 숫자 필터링 및 실시간 경고 제어
 const handleInputAvgPrice = () => {
   form.avgPrice = allowOnlyNumberAndDot(form.avgPrice);
-  if (form.avgPrice.trim()) {
+  if (form.avgPrice.trim() && Number(form.avgPrice) > 0) {
     errors.avgPrice = '';
   } else {
-    errors.avgPrice = '평균 매수 단가를 입력해 주세요.';
+    errors.avgPrice = '올바른 평균 매수 단가를 입력해 주세요.';
   }
 };
 
@@ -197,99 +197,3 @@ const handleDelete = (id) => {
   deleteAsset(id);
 };
 </script>
-
-<style scoped lang="scss">
-/* 반응형 스타일 유지 */
-.portfolio-page {
-  padding: 1rem 0;
-
-  .summary-card {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    background-color: #F4F6F8;
-    padding: 1.25rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-
-    .summary-item {
-      display: flex;
-      flex-direction: column;
-
-      .label { font-size: 0.8rem; color: #747D87; margin-bottom: 0.25rem; }
-      .value {
-        font-size: 1.2rem; font-weight: bold; color: #16191C;
-        &.plus { color: #D14D4D; }
-        &.minus { color: #4D7BD1; }
-      }
-    }
-
-    @media (min-width: 768px) {
-      flex-direction: row;
-      gap: 1.5rem;
-      padding: 1.5rem;
-
-      .summary-item {
-        flex: 1;
-        .label { font-size: 0.85rem; margin-bottom: 0.5rem; }
-        .value { font-size: 1.3rem; }
-      }
-    }
-  }
-
-  .asset-form {
-    margin-bottom: 2rem;
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-
-      .btn-wrap {
-        width: 100%;
-        button {
-          width: 100%; padding: 0.625rem 1rem; background-color: #16191C; color: #fff;
-          border: none; border-radius: 4px; font-size: 0.95rem; cursor: pointer;
-          transition: background-color 0.2s ease;
-          &:hover { background-color: #2D3135; }
-        }
-      }
-    }
-
-    @media (min-width: 768px) {
-      form {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 0.75rem;
-
-        .btn-wrap {
-          width: auto;
-          button { width: auto; padding: 0.625rem 1.25rem; }
-        }
-      }
-    }
-  }
-
-  .asset-list-section {
-    width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
-
-    .asset-table {
-      width: 100%; min-width: 600px; border-collapse: collapse; margin-top: 0.5rem;
-
-      th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #E9ECEF; white-space: nowrap; }
-      th { background-color: #F8F9FA; color: #454B52; font-size: 0.85rem; }
-      td {
-        font-size: 0.9rem;
-        .delete-btn {
-          padding: 0.35rem 0.625rem; background-color: #E2E8F0; border: none; border-radius: 4px;
-          color: #4A5568; font-size: 0.85rem; cursor: pointer;
-          &:hover { background-color: #CBD5E1; }
-        }
-        &.plus { color: #D14D4D; }
-        &.minus { color: #4D7BD1; }
-      }
-    }
-  }
-}
-</style>
