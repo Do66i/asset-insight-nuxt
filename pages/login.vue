@@ -39,12 +39,11 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
-import { useAuthStore } from '@/stores/auth.js';
-
+import { useAuth } from "@/composiables/useAuth.js";
 // ----- Props / Emits -----
 
 // ----- Composables -----
-const authStore = useAuthStore();
+const { login } = useAuth();
 const router = useRouter();
 
 // ----- State -----
@@ -81,11 +80,9 @@ const validateForm = () => {
 };
 
 const handleLogin = () => {
-  if (!validateForm()) {
-    return;
-  }
+  if (!validateForm()) return;
 
-  const success = authStore.login({
+  const success = login({
     username: form.username,
     password: form.password,
   });
