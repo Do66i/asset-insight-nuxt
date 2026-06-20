@@ -4,7 +4,8 @@
     <div class="dashboard-grid">
       <section class="widget-card asset-widget">
         <h3>📊 나의 자산 요약</h3>
-        <div class="asset-info">
+
+        <div v-if="isAuthenticated" class="asset-info">
           <div class="info-row">
             <span class="label">총 평가 자산</span>
             <span class="value">${{ totalEvaluationAmount.toFixed(2) }}</span>
@@ -15,14 +16,19 @@
               {{ totalReturnRate.toFixed(2) }}%
             </span>
           </div>
+          <div class="widget-action">
+            <NuxtLink to="/portfolio" class="link-btn">자산 관리하러 가기 →</NuxtLink>
+          </div>
         </div>
-        <div class="widget-action">
-          <NuxtLink to="/portfolio" class="link-btn">자산 관리하러 가기 →</NuxtLink>
+
+        <div v-else class="asset-marketing-lock">
+          <p class="marketing-text">로그인하시면 실시간 미국 주식 자산 포트폴리오 요약과 정밀 수익률 분석 위젯을 바로 이용할 수 있어요!</p>
+          <NuxtLink to="/login" class="marketing-login-btn">3초만에 로그인하고 자산 확인하기</NuxtLink>
         </div>
       </section>
 
       <section class="widget-card board-widget">
-        <h3>📝 최근 업데이트 인사이트</h3>
+        <h3>📝 최근 업데이트 인사이트 22</h3>
 
         <common-loading v-if="pending" />
 
@@ -43,17 +49,22 @@
   </div>
 </template>
 
+
 <script setup>
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { usePortfolioStore } from '@/stores/portfolio.js';
+import { useAuthStore } from '@/stores/auth.js';
 
 // ----- Props / Emits -----
 
 // ----- Composables -----
 const portfolioStore = usePortfolioStore();
+const authStore = useAuthStore();
+
 // 메인 화면에서 실시간으로 감시할 전역 자산 상태 추출
 const { totalEvaluationAmount, totalReturnRate } = storeToRefs(portfolioStore);
+const { isAuthenticated } = storeToRefs(authStore);
 
 // 인사이트 게시판 목록 조회 API 호출
 const { data: boardList, pending } = useFetch('/api/board');

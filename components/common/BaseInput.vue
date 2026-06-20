@@ -1,5 +1,6 @@
 <template>
-  <div class="common-input-group"> <label v-if="label" class="input-label">{{ label }}</label>
+  <div class="common-input-group">
+    <label v-if="label" class="input-label">{{ label }}</label>
 
     <input
       :value="modelValue"
@@ -17,53 +18,21 @@
 </template>
 
 <script setup>
-// ----- Props / Emits -----
 const props = defineProps({
-  // 양방향 바인딩을 위한 기본 v-model 값
-  modelValue: {
-    type: [String, Number],
-    default: '',
-  },
-  // 인풋 타입 (text, password 등)
-  type: {
-    type: String,
-    default: 'text',
-  },
-  // 플레이스홀더 텍스트
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  // 인풋 상단에 띄울 라벨 명칭
-  label: {
-    type: String,
-    default: '',
-  },
-  // 아래에 토글될 에러 메시지 내용 (값이 비어있으면 토글 닫힘)
-  errorMessage: {
-    type: String,
-    default: '',
-  },
+  modelValue: { type: [String, Number], default: '' },
+  type: { type: String, default: 'text' },
+  placeholder: { type: String, default: '' },
+  label: { type: String, default: '' },
+  errorMessage: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-// ----- Composables -----
-
-// ----- State -----
-
-// ----- Computed -----
-
-// ----- Watchers -----
-
-// ----- Lifecycle Hooks -----
-
-// ----- Methods -----
-// 입력값 변경 시 부모에게 v-model 변경 사항 전송
 const handleInput = (event) => {
   emit('update:modelValue', event.target.value);
 };
 </script>
 
 <style scoped lang="scss">
+/* 설명: 컴포넌트 고유의 정렬성과 유연한 폭을 보장하기 위해 고유 스코프 스타일 강제 주입 */
 </style>

@@ -4,13 +4,26 @@
       <h2>📈 Asset Insight</h2>
       <p>서비스 이용을 위해 로그인해 주세요.</p>
 
-      <form @submit.prevent="handleLogin">
-        <div class="input-group">
-          <input type="text" placeholder="아이디" required />
+      <form @submit.prevent="handleLogin" novalidate>
+        <div class="form-fields-wrapper">
+          <common-base-input
+            v-model="form.username"
+            type="text"
+            placeholder="아이디를 입력해줘 (doto)"
+            :error-message="errors.username"
+            @input="errors.username = ''"
+          />
+          <common-base-input
+            v-model="form.password"
+            type="password"
+            placeholder="비밀번호를 입력해줘 (1234)"
+            :error-message="errors.password"
+            @input="errors.password = ''"
+          />
         </div>
-        <div class="input-group">
-          <input type="password" placeholder="비밀번호" required />
-        </div>
+
+        <p v-if="globalError" class="global-error-msg">{{ globalError }}</p>
+
         <button type="submit">로그인</button>
       </form>
 
@@ -22,16 +35,27 @@
 </template>
 
 <script setup>
-import { useAuthStore } from '@/stores/auth';
+import { reactive, ref } from 'vue';
+import { useAuthStore } from '@/stores/auth.js';
+
 // ----- Props / Emits -----
 
 // ----- Composables -----
 const authStore = useAuthStore();
-const router = useRouter(); // 로그인 성공 후 페이지 이동을 위한 라우터
-const { login } = authStore;
+const router = useRouter();
 
 // ----- State -----
-const userId = ref('');
+const form = reactive({
+  username: '',
+  password: '',
+});
+
+const errors = reactive({
+  username: '',
+  password: '',
+});
+
+const globalError = ref('');
 
 // ----- Computed -----
 
@@ -40,21 +64,42 @@ const userId = ref('');
 // ----- Lifecycle Hooks -----
 
 // ----- Methods -----
-const handleLogin = () => {
-  console.log('로그인 시도');
-  login({ id: userId.value })
+const validateForm = () => {
+  let isValid = true;
+  if (!form.username.trim()) {
+    errors.username = '아이디를 입력해 주세요.';
+    isValid = false;
+  }
+  if (!form.password.trim()) {
+    errors.password = '비밀번호를 입력해 주세요.';
+    isValid = false;
+  }
+  return isValid;
+};
 
-  // 로그인 완료 후 대시보드 메인으로 이동
-  router.push('/'); //
+const handleLogin = () => {
+  if (!validateForm()) {
+    return;
+  }
+
+  const success = authStore.login({
+    username: form.username,
+    password: form.password,
+  });
+
+  if (success) {
+    globalError.value = '';
+    router.push('/');
+  } else {
+    globalError.value = '아이디 또는 비밀번호가 일치하지 않아!';
+  }
 };
 
 // ----- Page Meta -----
-// 이 페이지는 layouts/default.vue를 적용하지 않고 레이아웃 없이 단독으로 렌더링합니다.
 definePageMeta({
   layout: false,
 });
 </script>
 
 <style scoped lang="scss">
-
 </style>

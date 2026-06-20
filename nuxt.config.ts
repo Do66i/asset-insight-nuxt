@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
     compatibilityDate: '2026-06-18',
     css: [
-        '@/assets/scss/main.scss',
+        '@/assets/css/main.scss',
     ],
     modules: [
         '@nuxt/eslint',
