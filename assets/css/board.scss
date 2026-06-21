@@ -1,21 +1,152 @@
 @import "variables";
 /* === 게시판 메인 ===*/
-.board-page {
-  .loading {
-    color: #999;
+.board-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+
+  .board-main-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
   }
-  .board-list {
-    list-style: none;
-    padding: 0;
-    li {
+
+  .no-data-zone {
+    text-align: center;
+    padding: 4rem 0;
+    color: #64748b;
+    font-size: 1.05rem;
+  }
+
+  .board-grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .board-card-item {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+      border-color: #527aa4;
+    }
+
+    .card-link {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card-header-zone {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 1rem;
-      a {
+
+      .category-badge {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #527aa4;
+        background-color: #f0f4f8;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+      }
+
+      .user-tier-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.25rem 0.6rem;
+        border-radius: 20px;
+
+        &.tier-crown {
+          background-color: #fef3c7;
+          color: #d97706;
+        }
+        &.tier-oldbie {
+          background-color: #fee2e2;
+          color: #dc2626;
+        }
+        &.tier-chick {
+          background-color: #f0fdf4;
+          color: #16a34a;
+        }
+        &.tier-normal {
+          background-color: #f1f5f9;
+          color: #475569;
+        }
+      }
+    }
+
+    .card-content-zone {
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+
+      .card-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #0f172a;
+        line-height: 1.5rem;
+        margin: 0 0 0.6rem 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .card-summary {
+        font-size: 0.875rem;
+        color: #475569;
+        line-height: 1.5;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    .card-footer-zone {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px dashed #e2e8f0;
+      font-size: 0.85rem;
+
+      .writer-profile {
+        .writer-name {
+          font-weight: 600;
+          color: #334155;
+        }
+      }
+
+      .user-stats-metrics {
         display: flex;
-        justify-content: space-between;
-        text-decoration: none;
-        color: #333;
-        &:hover {
-          color: #527AA4;
+        align-items: center;
+        gap: 0.75rem;
+        color: #64748b;
+
+        .stat-item {
+          display: flex;
+          align-items: center;
+
+          &.date-text {
+            font-size: 0.8rem;
+            color: #94a3b8;
+          }
         }
       }
     }

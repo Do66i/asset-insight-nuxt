@@ -210,3 +210,100 @@
     opacity: 0;
   }
 }
+
+/* === 글로벌 페이지 네이션 컴포넌트 스타일 ===*/
+.board-pagination-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 3rem;
+
+  .page-nav-btn {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #f1f5f9;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      background-color: #f8fafc;
+    }
+  }
+
+  .page-num-btn {
+    min-width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f8fafc;
+    }
+
+    &.active {
+      background-color: #527aa4;
+      color: #ffffff;
+      border-color: #527aa4;
+    }
+  }
+}
+
+/* === 글로벌 검색창 컴포넌트 스타일 ===*/
+.board-search-bar {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+
+  .search-select {
+    padding: 0.6rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 0.9rem;
+    color: #334155;
+  }
+
+  .search-input {
+    flex-grow: 1;
+    padding: 0.6rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.9rem;
+
+    &:focus {
+      outline: none;
+      border-color: #527aa4;
+    }
+  }
+
+  .search-button {
+    padding: 0.6rem 1.2rem;
+    background-color: #527aa4;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: #3b5d82;
+    }
+  }
+}

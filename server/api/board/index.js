@@ -1,10 +1,47 @@
-// 인사이트 게시판 목록 Mock Data API
-export default defineEventHandler ( async () => {
-  // 추후 Nest.js 완성 시 이 형식 그대로 받아올 예정임
+// server/api/board/index.js
+import { dummyArticles } from '@/utils/boardDummy.js';
 
-  return [
-    { id: 1, title: '미국 주식 ISA 계좌에서 굴려야 하는 이유', writer: '도토', date: '2026-06-18' },
-    { id: 2, title: '빅테크 분기 실적 발표 일정 및 관전 포인트', writer: 'Jini', date: '2026-06-17' },
-    { id: 3, title: '포트폴리오 리밸런싱 주기는 어떻게 가져가시나요?', writer: '자산가', date: '2026-06-15' },
-  ];
+// 설명: 프론트엔드의 검색 및 페이지네이션 조건에 응답하는 서버 라우터 서브시스템
+export default defineEventHandler((event) => {
+  const query = getQuery(event);
+
+  // 파라미터 수급 및 기본값 예외 가드 처리
+  const searchType = query.searchType || 'all'; // all: 제목+본문, writer: 닉네임
+  const keyword = query.keyword ? String(query.keyword).trim().toLowerCase() : '';
+  const page = Math.max(1, parseInt(query.page || '1', 10));
+  const limit = Math.max(1, parseInt(query.limit || '6', 10)); // 한 페이지당 6개 카드 배치
+
+  let filtered = [...dummyArticles];
+
+  // 1. 하이브리드 검색 조건 필터링 엔진 가동
+  if (keyword) {
+    if (searchType === 'writer') {
+      // 닉네임 검색
+      filtered = filtered.filter(item =>
+        item.writer.toLowerCase().includes(keyword)
+      );
+    } else {
+      // 제목 + 본문(summary) 종합 검색
+      filtered = filtered.filter(item =>
+        item.title.toLowerCase().includes(keyword) ||
+        item.summary.toLowerCase().includes(keyword)
+      );
+    }
+  }
+
+  // 전체 카운트 계산
+  const totalCount = filtered.length;
+
+  // 2. 정석 페이지네이션 슬라이싱 연산
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  const paginatedList = filtered.slice(startIndex, endIndex);
+
+  // 결과 구조 원자적 반환 (프론트가 읽기 편하게 가공 오브젝트 리턴)
+  return {
+    list: paginatedList,
+    totalCount,
+    totalPages: Math.ceil(totalCount / limit),
+    currentPage: page
+  };
 });
