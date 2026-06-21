@@ -10,6 +10,10 @@ html, body {
   padding: 0;
   box-sizing: border-box;
 }
+// 설명: SSR 페이지 이동 시 스크롤바 유무에 따른 화면 좌우 꿀렁임(거터) 결함 방어 레이어 주입
+html {
+  overflow-y: scroll;
+}
 //h1,
 //h2,
 //h3,
