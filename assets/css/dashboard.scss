@@ -221,7 +221,7 @@
       gap: 0.75rem;
 
       /* 설명: 공통 인풋 컴포넌트의 가로폭 유연성 확보 */
-      :deep(.common-input-group) {
+      :deep(.base-input-group) {
         flex: 1;
       }
 
@@ -357,4 +357,275 @@
       max-width: 480px;
     }
   }
+}
+
+// 설명: 디자인 가이드 쇼케이스 기본 레이아웃 구성 스펙
+.style-guide-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+
+  .guide-main-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+  }
+
+  .guide-sub-title {
+    font-size: 1rem;
+    color: #64748b;
+    margin-bottom: 3rem;
+  }
+
+  .guide-section {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+  }
+
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+
+    .color-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .color-swatch {
+        height: 100px;
+        &.visual-primary { background-color: #527AA4; }
+        &.visual-secondary { background-color: #3b5d82; }
+        &.visual-bg { background-color: #f4f6f8; }
+        &.visual-text { background-color: #334155; }
+      }
+
+      .color-info {
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .color-name { font-size: 0.875rem; font-weight: 600; color: #1e293b; }
+        .color-hex { font-size: 0.8rem; color: #94a3b8; }
+      }
+    }
+  }
+
+  .component-preview-box {
+    padding: 1.5rem;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+
+    &.row-gap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .size-example-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+
+      .size-badge {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #64748b;
+      }
+    }
+
+    .flex-wrap-layout {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      &.align-center { align-items: center; }
+    }
+  }
+
+  .component-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+
+    .status-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+
+      .status-label {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// ⚡ CRUD 대/중/소 컴포넌트 분리형 디자인 스타일 시트
+// ==========================================================================
+
+// ----- [1] 공통 단문 입력 폼 (BaseInput) 기본 스타일 명세 -----
+.base-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1.25rem;
+
+  .input-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.5rem;
+  }
+
+  .design-input-ctrl {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #1e293b;
+    border-radius: 8px;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #527AA4;
+      box-shadow: 0 0 0 3px rgba(82, 122, 164, 0.15);
+    }
+
+    &:disabled {
+      background-color: #f1f5f9;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    &.has-error { border-color: #ef4444; }
+  }
+
+  .input-error-msg {
+    font-size: 0.8rem;
+    color: #ef4444;
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+}
+
+// ----- [2] 공통 장문 입력 폼 (BaseTextarea) 기본 스타일 명세 -----
+.base-textarea-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1.25rem;
+
+  .textarea-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.5rem;
+  }
+
+  .design-textarea-ctrl {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #1e293b;
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    line-height: 1.6;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #527AA4;
+      box-shadow: 0 0 0 3px rgba(82, 122, 164, 0.15);
+    }
+
+    &:disabled {
+      background-color: #f1f5f9;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    &.has-error { border-color: #ef4444; }
+  }
+
+  .textarea-error-msg {
+    font-size: 0.8rem;
+    color: #ef4444;
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+}
+
+// ==========================================================================
+// 🎨 원자적 클래스 대/중/소 크기 분리 스펙 (높이 및 글자 크기 직결 제어)
+// ==========================================================================
+
+// ----- [A] Input 전용 독립 크기 분기 클래스 -----
+.design-input-ctrl {
+  &.input-sm { padding: 0.4rem 0.75rem; font-size: 0.85rem; height: 32px; border-radius: 6px; }
+  &.input-md { padding: 0.75rem 1rem; font-size: 0.95rem; height: 44px; }
+  &.input-lg { padding: 0.95rem 1.25rem; font-size: 1.1rem; height: 54px; }
+}
+
+// ----- [B] Textarea 전용 독립 크기 분기 클래스 -----
+.design-textarea-ctrl {
+  &.textarea-sm { padding: 0.5rem 0.75rem; font-size: 0.85rem; height: 80px; border-radius: 6px; }
+  &.textarea-md { padding: 0.75rem 1rem; font-size: 0.95rem; height: 140px; }
+  &.textarea-lg { padding: 0.95rem 1.25rem; font-size: 1.1rem; height: 220px; }
+}
+
+// ----- [C] 전역 버튼 디자인 규격 명세 (BaseButton) -----
+.design-btn-ctrl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+  user-select: none;
+
+  &:disabled {
+    background-color: #e2e8f0 !important;
+    border-color: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
+  }
+
+  &.btn-primary { background-color: #527AA4; color: #ffffff; &:hover:not(:disabled) { background-color: #3b5d82; } }
+  &.btn-secondary { background-color: #475569; color: #ffffff; &:hover:not(:disabled) { background-color: #334155; } }
+  &.btn-danger { background-color: #ef4444; color: #ffffff; &:hover:not(:disabled) { background-color: #dc2626; } }
+  &.btn-outline { background-color: #ffffff; border-color: #cbd5e1; color: #475569; &:hover:not(:disabled) { background-color: #f8fafc; border-color: #94a3b8; } }
+
+  &.btn-sm { padding: 0.4rem 0.75rem; font-size: 0.85rem; border-radius: 6px; }
+  &.btn-md { padding: 0.6rem 1.2rem; font-size: 0.95rem; }
+  &.btn-lg { padding: 0.8rem 1.8rem; font-size: 1.05rem; }
 }

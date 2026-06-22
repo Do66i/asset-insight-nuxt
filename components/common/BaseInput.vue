@@ -1,38 +1,52 @@
 <template>
-  <div class="common-input-group">
+  <div class="base-input-group">
     <label v-if="label" class="input-label">{{ label }}</label>
 
     <input
       :value="modelValue"
       :type="type"
       :placeholder="placeholder"
-      :class="{ 'has-error': errorMessage }"
-      class="base-input"
-      @input="handleInput"
+      :disabled="disabled"
+      class="design-input-ctrl"
+      :class="[sizeClass, { 'has-error': errorMessage }]"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
 
-    <transition name="slide-fade">
-      <p v-if="errorMessage" class="error-message-text">{{ errorMessage }}</p>
-    </transition>
+    <p v-if="errorMessage" class="input-error-msg">⚠️ {{ errorMessage }}</p>
   </div>
 </template>
 
 <script setup>
+// ----- Props / Emits -----
+import { computed } from "vue";
+
 const props = defineProps({
-  modelValue: { type: [String, Number], default: '' },
+  modelValue: { type: String, default: '' },
   type: { type: String, default: 'text' },
-  placeholder: { type: String, default: '' },
   label: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
   errorMessage: { type: String, default: '' },
+  // 설명: 다른 곳에서 호출 시 깨지지 않도록 기본값 'md'로 설정하여 하위 호환성 유지
+  size: { type: String, default: 'md' }
 });
 
-const emit = defineEmits(['update:modelValue']);
+defineEmits(['update:modelValue']);
 
-const handleInput = (event) => {
-  emit('update:modelValue', event.target.value);
-};
+// ----- Composables -----
+
+// ----- State -----
+
+// ----- Computed -----
+const sizeClass = computed(() => {
+  return `input-${props.size}`;
+});
+
+// ----- Watchers -----
+
+// ----- Lifecycle Hooks -----
+
+// ----- Methods -----
 </script>
-
 <style scoped lang="scss">
-/* 설명: 컴포넌트 고유의 정렬성과 유연한 폭을 보장하기 위해 고유 스코프 스타일 강제 주입 */
 </style>
