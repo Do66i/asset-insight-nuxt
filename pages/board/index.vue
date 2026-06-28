@@ -1,11 +1,16 @@
 <template>
   <div class="board-container">
-    <h2 class="board-main-title">📈 인사이트 메인 게시판</h2>
+    <div class="board-header-row">
+      <h2 class="board-main-title">📈 인사이트 메인 게시판</h2>
+      <NuxtLink v-if="isAuthenticated" to="/board/write" class="write-action-btn">
+        ✏️ 인사이트 작성
+      </NuxtLink>
+    </div>
 
     <CommonBaseSearch
-      v-model:searchType="searchParam.searchType"
-      v-model:keyword="searchParam.keyword"
-      @search="triggerSearch"
+        v-model:searchType="searchParam.searchType"
+        v-model:keyword="searchParam.keyword"
+        @search="triggerSearch"
     />
 
     <CommonLoading v-if="pending" />
@@ -16,9 +21,9 @@
 
     <div v-else class="board-grid-wrapper">
       <div
-        v-for="item in boardResponse.list"
-        :key="item.id"
-        class="board-card-item"
+          v-for="item in boardResponse.list"
+          :key="item.id"
+          class="board-card-item"
       >
         <NuxtLink :to="`/board/${item.id}`" class="card-link">
           <div class="card-header-zone">
@@ -49,20 +54,25 @@
     </div>
 
     <CommonBasePagination
-      v-if="boardResponse?.totalPages > 1"
-      :current-page="searchParam.page"
-      :total-pages="boardResponse.totalPages"
-      @change="changePage"
+        v-if="boardResponse?.totalPages > 1"
+        :current-page="searchParam.page"
+        :total-pages="boardResponse.totalPages"
+        @change="changePage"
     />
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '@/stores/auth.js';
 
 // ----- Props / Emits -----
 
 // ----- Composables -----
+const authStore = useAuthStore();
+const { isAuthenticated } = storeToRefs(authStore);
+
 const searchParam = reactive({
   searchType: 'all',
   keyword: '',
@@ -114,4 +124,33 @@ const changePage = (newPage) => {
 </script>
 
 <style scoped lang="scss">
+/* 설명: 상단 타이틀과 글쓰기 버튼 정렬을 위한 헤더 로우 플렉스 레이아웃 추가 */
+.board-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.board-main-title {
+  margin-bottom: 0;
+}
+
+/* 설명: 다른 폼 버튼과 톤앤매너를 맞춘 글쓰기 액션 버튼 스타일 정의 */
+.write-action-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.2rem;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #2563eb;
+  }
+}
 </style>

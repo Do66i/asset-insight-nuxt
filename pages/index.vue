@@ -74,10 +74,17 @@ const { data: boardList, pending } = useFetch('/api/board');
 // ----- Computed -----
 // 설명: 메인 위젯용으로 최신 글 2개만 조각내어 반환하는 연산 프로미스
 const recentBoardList = computed(() => {
+  // 데이터가 없거나 유효하지 않은 경우 빈 배열 반환 검증
   if (!boardList.value) {
     return [];
   }
-  return boardList.value.slice(0, 2);
+
+  // API 응답 구조가 배열인 경우와 객체 내에 배열이 포함된 경우를 모두 방어 처리
+  const rawList = Array.isArray(boardList.value)
+      ? boardList.value
+      : (boardList.value.list || boardList.value.data || []);
+
+  return rawList.slice(0, 2);
 });
 
 // ----- Watchers -----

@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@vueup/vue-quill": "^1.0.0-alpha.40",
     "apexcharts": "^5.15.2",
     "nuxt": "^4.4.8",
     "pinia": "^3.0.4",
