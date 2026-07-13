@@ -1,0 +1,107 @@
+@import './variables.scss';
+
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $Gray50; // 여름뮤트 연쿨그레이 배경
+  padding: 1.5rem;
+  box-sizing: border-box;
+
+  .signup-box {
+    background: $Gray00;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    overflow: hidden; /* 슬라이딩 시 박스 밖으로 튀어나가는 텍스트 가림막 처리 */
+
+    h2 {
+      color: $Main400; // 여름뮤트 로즈 시그니처 톤
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .step-guide-text {
+      color: $Gray600;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 2rem;
+
+      strong {
+        color: $Main400;
+        font-weight: 600;
+      }
+    }
+
+    /* 설명: 순차적으로 열리는 입력 단위 블록들의 세로 간격 조정 */
+    .step-field-block {
+      margin-bottom: 1.25rem;
+      width: 100%;
+    }
+
+    .btn-wrap {
+      width: 100%;
+      margin-top: 1.5rem;
+
+      button {
+        width: 100%;
+        padding: 0.85rem;
+        background-color: $Main400;
+        color: $Gray00;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: $Main500; // 플럼 로즈 다크 톤 스위칭
+        }
+      }
+    }
+
+    .back-link {
+      margin-top: 1.5rem;
+      text-align: center;
+
+      a {
+        color: $Gray-Site;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: $Text-Normal;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+/* =================================================================
+   🔥 모션 그래픽 팩: 오른쪽에서 슥 날아오며 부드럽게 등장하는 효과
+   ================================================================= */
+.slide-in-enter-active {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.slide-in-enter-from {
+  transform: translateX(40px); /* 설명: 우측 40px 지점에서 출발 */
+  opacity: 0;
+}
+
+/* 버튼 출력 시 투명도 페이드인 연출 */
+.fade-in-enter-active {
+  transition: opacity 0.3s ease 0.1s; /* 약간의 딜레이를 주어 리드미컬하게 출력 */
+}
+
+.fade-in-enter-from {
+  opacity: 0;
+}

@@ -8,7 +8,7 @@ Nuxt 3의 **SSR(서버 사이드 렌더링)**과 **동적 라우팅**을 극대�
 
 ## 🗺 1. 와이어프레임 & 주요 기능 (Wireframe & Features)
 
-애플리케이션은 크게 3개의 핵심 화면으로 구성됩니다.
+애플리케이션은 크게 4개의 핵심 화면으로 구성됩니다.
 
 ### ① 대시보드 메인 (`/`)
 * **나의 총 자산 요약**: ISA 계좌, 미국 주식 등 자산별 비중을 시각적으로 표현 (차트 컴포넌트 활용).
@@ -22,32 +22,46 @@ Nuxt 3의 **SSR(서버 사이드 렌더링)**과 **동적 라우팅**을 극대�
 * **인사이트 공유**: 미국 주식 및 ISA 활용 팁을 공유하는 게시판.
 * **SSR 상세 페이지**: 게시글 상세 페이지(`/board/1`)는 검색엔진(SEO)에 노출되도록 완전한 서버 사이드 렌더링으로 처리.
 
+### ④ 로그인 (`/login`)
+* **독립적 레이아웃 구성**: 공통 상단바(GNB)가 노출되지 않는 단독 전체 화면 구성.
+* **인증 관리**: 서비스 진입 및 포트폴리오 조회를 위한 가짜(또는 실제 API) 인증 로직 처리.
+
 ---
 
 ## 📂 2. 폴더 구조 (Folder Structure)
 
-Nuxt 3의 표준 규칙 및 내부 레이어 구분을 위한 구조입니다. Scripts 내부는 기능별 주석 섹션으로 구분하여 관리합니다.
+Nuxt 4 및 프로젝트 규칙에 맞춰 구조화된 폴더 트리입니다.
 
 ```text
 asset-insight-nuxt/
 ├── .nuxt/                  # Nuxt 자동 생성 빌드 파일 (Git 제외)
 ├── .output/                # 프로덕션 배포용 빌드 결과물 (Git 제외)
+├── app/                    # Nuxt 4의 기본 애플리케이션 소스 레이어
+│   └── app.vue             # 애플리케이션 최상위 컴포넌트
 ├── assets/                 # SCSS, 이미지, 폰트 등 컴파일이 필요한 자원
-│   └── scss/               # 공통 스타일 및 변수 관리
+│   └── scss/               # 여름뮤트 블루-네이비 톤앤매너 기반 스타일 시스템
+│       ├── _layout.scss    # 공통 레이아웃 및 GNB 스타일
+│       ├── _login.scss     # 로그인 페이지 전용 독립 스타일
+│       ├── _reset.scss     # 브라우저 기본 스타일 초기화
+│       ├── _typography.scss # 폰트 및 서체 스타일 정의
+│       ├── _variables.scss # 여름뮤트 컬러 변수 및 공통 Mixin 정의
+│       └── main.scss       # 스타일시트 허브 (Dart Sass @use 문법 적용)
 ├── components/             # 재사용 가능한 UI 컴포넌트 (자동 임포트)
-│   ├── common/             # Button, Input 등 공통 컴포넌트
-│   └── dashboard/          # 대시보드 전용 컴포넌트
-├── layouts/                # 페이지 틀을 결정하는 레이아웃 (Default, Blank 등)
+│   └── common/             # 공통 UI 레이어
+│       └── Gnb.vue         # 글로벌 네비게이션 바 컴포넌트
+├── layouts/                # 페이지 틀을 결정하는 레이아웃 시스템
+│   └── default.vue         # 공통 레이아웃 (GNB + Content Container)
 ├── node_modules/           # 의존성 라이브러리 (Git 제외)
 ├── pages/                  # 파일 기반 라우팅 규칙 적용 폴더
 │   ├── board/
 │   │   ├── [id].vue        # 게시글 상세 페이지 (동적 라우팅: /board/:id)
 │   │   └── index.vue       # 게시판 메인 페이지 (/board)
 │   ├── index.vue           # 메인 대시보드 페이지 (/)
+│   ├── login.vue           # 로그인 페이지 (definePageMeta 기반 레이아웃 제외 처리)
 │   └── portfolio.vue       # 자산 관리 페이지 (/portfolio)
 ├── plugins/                # 외부 라이브러리 및 플러그인 설정
 ├── stores/                 # Pinia 전역 상태 관리 폴더
-├── app.vue                 # 애플리케이션 최상위 컴포넌트
+├── eslint.config.mjs       # ESLint 설정 파일
 ├── nuxt.config.ts          # Nuxt 프로젝트 전역 설정 파일
 ├── package.json            # 프로젝트 의존성 및 스크립트 정의
 └── README.md               # 프로젝트 가이드 문서
@@ -140,7 +154,7 @@ chore: eslint 설정 추가
 
 모든 JavaScript / TypeScript 문장의 끝에는 세미콜론(`;`)을 작성합니다.
 
-### ✅ Good
+### ✅ 좋은 예시 (Good)
 
 ```vue
 const name = 'John';
@@ -148,7 +162,7 @@ const name = 'John';
 console.log(name);
 ```
 
-### ❌ Bad
+### ❌ 잘못된 예시 (Bad)
 
 ```vue
 const name = 'John'
@@ -162,14 +176,14 @@ console.log(name)
 
 Import 문 작성 시 확장자명을 반드시 명시합니다.
 
-### ✅ Good
+### ✅ 좋은 예시 (Good)
 
 ```vue
 import Navigation from '~/components/common/Navigation.vue';
 import useAuth from '~/composables/useAuth.ts';
 ```
 
-### ❌ Bad
+### ❌ 잘못된 예시 (Bad)
 
 ```vue
 import Navigation from '~/components/common/Navigation';
