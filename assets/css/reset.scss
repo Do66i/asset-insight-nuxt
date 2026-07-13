@@ -1,0 +1,96 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  -webkit-text-size-adjust: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+// 설명: SSR 페이지 이동 시 스크롤바 유무에 따른 화면 좌우 꿀렁임(거터) 결함 방어 레이어 주입
+html {
+  overflow-y: scroll;
+}
+//h1,
+//h2,
+//h3,
+//h4,
+//h5,
+//h6 {
+//  font: inherit;
+//}
+fieldset,
+img {
+  border: none;
+}
+dl,
+ul,
+ol,
+menu,
+li {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: none;
+}
+input,
+select,
+textarea,
+button {
+  vertical-align: middle;
+}
+input::-ms-clear {
+  display: none;
+}
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover,
+a:focus,
+a:active,
+a:visited {
+  text-decoration: none;
+}
+:focus {
+  outline: none;
+}
+header,
+footer,
+menu,
+nav,
+aside,
+main,
+section,
+article {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+}
+th {
+  font-weight: inherit;
+}

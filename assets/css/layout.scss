@@ -1,0 +1,309 @@
+@import './variables.scss';
+// 레이아웃 전체 틀
+.default-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  // 페이지 내용이 들어갈 기본 컨테이너 박스
+  .container {
+    padding: 2rem;
+    flex: 1;
+  }
+}
+
+/* === 글로벌 네비게이션 바 (GNB) 스타일 === */
+.app-global-header {
+  width: 100%;
+  background-color: #ffffff; /* 하얀 배경 강제 지정 */
+  border-bottom: 1px solid $Gray200; /* 하얀 배경 분리를 위한 하단 모던 보더 라인 추가 */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .header-container {
+    width: 100%;
+    max-width: 100%; /* 설명: 1200px 제한을 풀고 양옆 좌우 여백을 완전히 제로화 */
+    margin: 0;
+    padding: 0 1.5rem; /* 좌우 끝부분 텍스트가 화면 틀에 완전히 붙지 않도록 최소한의 숨구멍만 확보 */
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .header-logo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: $Text-Normal; /* 비가시성 방지를 위해 하얀 배경에 맞는 어두운 컬러 칩 매핑 */
+    text-decoration: none;
+  }
+
+  .header-nav {
+    display: flex;
+    gap: 1.5rem; /* 메뉴 아이템 간 간격 살짝 확장 */
+    align-items: center;
+
+    .nav-item {
+      color: $Gray600; /* 하얀 배경에서 묻히지 않도록 선명도 보정 */
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $Main400; /* 마우스 올렸을 때 여름뮤트 포인트 컬러 스위칭 */
+      }
+
+      &.active {
+        color: $Main400; /* 활성화 탭 텍스트 강조 처리 */
+        font-weight: bold;
+      }
+
+      &.login-link {
+        border: 1px solid $Gray300;
+        padding: 0.35rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        color: $Text-Normal;
+
+        &:hover {
+          background-color: $Main400;
+          border-color: $Main400;
+          color: #ffffff; /* 버튼 반전 시 글자색 흰색 처리 */
+        }
+      }
+    }
+  }
+
+  /* 설명: 로그인 후 우측 유저 인포메이션 텍스트 명도 가독성 패치 */
+  .login-menu-zone {
+    display: flex;
+    align-items: center;
+
+    .user-status-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .user-name-tag {
+        font-size: 0.88rem;
+        color: $Text-Normal; /* 연한 흰색 그레이에서 가독성 좋은 어두운 텍스트로 보정 */
+      }
+
+      .logout-action-btn {
+        background: none;
+        border: 1px solid $Gray300;
+        color: $Gray600;
+        padding: 0.35rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: #ffffff;
+          background-color: #D14D4D;
+          border-color: #D14D4D;
+        }
+      }
+    }
+  }
+}
+/* === 글로벌 로딩 컴포넌트 스타일 ===*/
+.common-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+
+  .loading-text {
+    color: #999;
+    font-size: 0.95rem;
+  }
+}
+/* === 글로벌 데이터없음 컴포넌트 스타일 ===*/
+.common-no-data {
+  text-align: center;
+  padding: 3rem 0;
+
+  .message-text {
+    color: #9098A1;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .back-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #527AA4;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #355A82;
+    }
+  }
+}
+/* === 글로벌 input 컴포넌트 스타일 ===*/
+.base-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left; /* 부모의 center 정렬 상속 전면 차단 */
+
+  .input-label {
+    font-size: 0.85rem;
+    color: $Text-Normal;
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+
+  .base-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid $Gray200;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    color: $Text-Normal;
+    background-color: $Gray00;
+    box-sizing: border-box; /* 패딩이 100% 가로폭을 깨뜨리지 않도록 방어 */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder {
+      color: $Medium-Gray;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $Main300;
+    }
+
+    &.has-error {
+      border-color: #D14D4D !important;
+      background-color: #FFF5F5 !important;
+    }
+  }
+
+  .error-message-text {
+    color: #D14D4D !important;
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .slide-fade-enter-active,
+  .slide-fade-leave-active {
+    transition: all 0.2s ease-out;
+  }
+
+  .slide-fade-enter-from,
+  .slide-fade-leave-to {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+}
+
+/* === 글로벌 페이지 네이션 컴포넌트 스타일 ===*/
+.board-pagination-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 3rem;
+
+  .page-nav-btn {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #f1f5f9;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      background-color: #f8fafc;
+    }
+  }
+
+  .page-num-btn {
+    min-width: 2.2rem;
+    height: 2.2rem;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f8fafc;
+    }
+
+    &.active {
+      background-color: #527aa4;
+      color: #ffffff;
+      border-color: #527aa4;
+    }
+  }
+}
+
+/* === 글로벌 검색창 컴포넌트 스타일 ===*/
+.board-search-bar {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+
+  .search-select {
+    padding: 0.6rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 0.9rem;
+    color: #334155;
+  }
+
+  .search-input {
+    flex-grow: 1;
+    padding: 0.6rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.9rem;
+
+    &:focus {
+      outline: none;
+      border-color: #527aa4;
+    }
+  }
+
+  .search-button {
+    padding: 0.6rem 1.2rem;
+    background-color: #527aa4;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: #3b5d82;
+    }
+  }
+}
